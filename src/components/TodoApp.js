@@ -75,13 +75,20 @@ class TodoApp extends Component {
         this.setState({ list: tempList });
     }
 
+    onDelete = (index) => {
+        const { list } = this.state;
+        let tempList = list;
+        tempList.splice(index, 1);
+        this.setState({ list: tempList });
+    }
+
     render() {
         const { list } = this.state;
         return (
             <div className="container body">
                 {this.getTitle()}
                 <div className="mx-3">
-                    <ListRenderer dataList={list} onTaskComplete={this.onTaskComplete} />
+                    <ListRenderer dataList={list} onTaskComplete={this.onTaskComplete} onDelete={this.onDelete} />
                     {this.getInputField()}
                 </div>
             </div>
