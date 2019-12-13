@@ -22,4 +22,10 @@ ListRenderer.propTypes = {
     onDelete: PropTypes.func,
 }
 
+ListRenderer.defaultProps = {
+    dataList: [] ,
+    onTaskComplete: () => {} ,
+    onDelete: () => {},
+}
+
 export default ListRenderer;
