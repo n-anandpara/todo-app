@@ -15,7 +15,7 @@ class TodoApp extends Component {
                 Todo
             </div>
             <div className='col-6 d-flex justify-content-end' >
-                <button type="button" className="btn btn-secondary btn-sm my-2">
+                <button type="button" className="btn btn-secondary btn-sm my-2" onClick={() => this.onClickOfAddButton()} >
                     <i className="fa fa-plus"></i>
                 </button>
             </div>
@@ -32,11 +32,23 @@ class TodoApp extends Component {
         this.setState({ list: tempList });
     }
 
+    onClickOfAddButton = () => {
+        if (this.inputRef.current.value) {
+            this.addElement(this.inputRef.current.value);
+            this.setState({ value: '' });
+            this.inputRef.current.focus();
+        } else {
+            this.inputRef.current.focus();
+        }
+    }
+
     addElementOnEnter = (event) => {
-        if (event.key === 'Enter') {
+        if (event.target.value && event.key === 'Enter') {
             event.preventDefault();
             this.setState({ value: '' });
             this.addElement(event.target.value);
+        } else if (!event.target.value && event.key === 'Enter') {
+            event.preventDefault();
         }
     }
 
@@ -56,13 +68,20 @@ class TodoApp extends Component {
         )
     }
 
+    onTaskComplete = (value) => {
+        const { list } = this.state;
+        let tempList = list;
+        tempList[value].complete = !tempList[value].complete;
+        this.setState({ list: tempList });
+    }
+
     render() {
         const { list } = this.state;
         return (
             <div className="container body">
                 {this.getTitle()}
                 <div className="mx-3">
-                    <ListRenderer dataList={list}/>
+                    <ListRenderer dataList={list} onTaskComplete={this.onTaskComplete} />
                     {this.getInputField()}
                 </div>
             </div>
